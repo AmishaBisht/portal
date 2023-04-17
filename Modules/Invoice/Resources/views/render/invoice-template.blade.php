@@ -302,7 +302,7 @@
                                         <td align="right">
                                             <p>{{ $termText }}</p>
                                             <p>{{ $invoiceNumber }}</p>
-                                            <p>{{ date('F d, Y', strtotime($invoiceData['sent_on'])) }}</p>
+                                            <p>{{ date('F d, Y', strtotime(now()->subMonthNoOverflow()->endOfMonth()->toDateString())) }}</p>
                                             <p>{{ date('F d, Y', strtotime($invoiceData['due_on'])) }}</p>
                                         </td>
                                     </tr>
