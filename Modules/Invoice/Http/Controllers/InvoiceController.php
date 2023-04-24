@@ -5,6 +5,8 @@ namespace Modules\Invoice\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\App;
+use Modules\Client\Entities\Client;
+use Modules\Project\Entities\Project;
 use Modules\Invoice\Entities\Invoice;
 use Modules\Invoice\Contracts\InvoiceServiceContract;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -87,6 +89,7 @@ class InvoiceController extends Controller
             'client_id' => $request->client_id,
             'project_id' => $request->project_id,
             'term' => today(config('constants.timezone.indian'))->subMonth()->format('Y-m'),
+            'termEndDate' => $request->termEndDate,
             'sent_on' => today(config('constants.timezone.indian')),
             'due_on' => today(config('constants.timezone.indian'))->addDays(6),
             'period_start_date' => $request->period_start_date,
@@ -102,9 +105,10 @@ class InvoiceController extends Controller
     {
         $data['invoiceNumber'] = $data['invoiceNumber'];
         $pdf = App::make('snappy.pdf.wrapper');
-
+        
         $template = config('invoice.templates.invoice.clients.' . optional($data['client'])->name) ?: 'invoice-template';
         $html = view(('invoice::render.' . $template), $data);
+        // dd('invoice::render.' . $template);
         $pdf->loadHTML($html);
 
         return $pdf;
