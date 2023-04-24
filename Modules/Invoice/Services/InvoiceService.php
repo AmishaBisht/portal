@@ -514,7 +514,6 @@ class InvoiceService implements InvoiceServiceContract
             $billingStartMonth = Carbon::parse($data['period_start_date'])->format('M');
         }
 
-        $termEndDate = $client ? $client->getMonthEndDateAttribute(1)->format('F d, Y') : $project->client->getMonthEndDateAttribute(1)->format('F d, Y');
         $billingEndMonth = $client ? $client->getMonthEndDateAttribute(1)->format('M') : $project->client->getMonthEndDateAttribute(1)->format('M');
         $billingEndMonthYear = $client ? $client->getMonthEndDateAttribute(1)->format('Y') : $project->client->getMonthEndDateAttribute(1)->format('Y');
         if ($data['period_end_date'] ?? false) {
@@ -541,7 +540,6 @@ class InvoiceService implements InvoiceServiceContract
             'currencyService' => $this->currencyService(),
             'monthsToSubtract' => 1,
             'termText' => $termText,
-            'termEndDate' =>$termEndDate,
             'periodStartDate' => $data['period_start_date'] ?? null,
             'periodEndDate' => $data['period_end_date'] ?? null
         ];
